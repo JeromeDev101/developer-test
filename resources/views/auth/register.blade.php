@@ -1,7 +1,6 @@
 <x-guest-layout>
     <x-authentication-card>
         <x-slot name="logo">
-            <x-authentication-card-logo />
         </x-slot>
 
         <x-validation-errors class="mb-4" />
@@ -17,6 +16,21 @@
             <div class="mt-4">
                 <x-label for="email" value="{{ __('Email') }}" />
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+            </div>
+
+            <div class="mt-4">
+                @php
+                    $roles = Spatie\Permission\Models\Role::all();
+                    $roleOptions = [];
+                    foreach($roles as $role) {
+                        $roleOptions[] = [
+                            'value' => $role['name'],
+                            'label' => $role['name'],
+                        ];
+                    }
+                @endphp
+                <x-label value="{{ __('Role') }}" />
+                <x-select name="role" :options="$roleOptions" />
             </div>
 
             <div class="mt-4">
@@ -51,7 +65,7 @@
                     {{ __('Already registered?') }}
                 </a>
 
-                <x-button class="ms-4">
+                <x-button class="ms-4" color="info">
                     {{ __('Register') }}
                 </x-button>
             </div>
